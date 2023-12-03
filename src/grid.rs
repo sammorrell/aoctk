@@ -1,3 +1,12 @@
+use std::slice::SliceIndex;
+
+#[inline]
+pub fn new_grid<T: Default + Clone>(ni: usize, nj: usize) -> Vec<Vec<T>> {
+    (0..ni).map(|_| {
+        vec![T::default(); nj]
+    }).collect()
+}
+
 #[derive(Default, Debug)]
 pub struct GridNeighbours<T: Default + Copy> {
     pub n: Option<T>,
@@ -30,13 +39,28 @@ impl<T: Default + Copy> GridNeighbours<T> {
         }
         neighbours
     }
+
+    pub fn into_vec(self) -> Vec<Option<T>> {
+        vec![self.n, self.ne, self.e, self.se, self.s, self.sw, self.w, self.nw]
+    }
 }
 
 impl<T: Default + Copy> Into<Vec<Option<T>>> for GridNeighbours<T> {
     /// Returns the elements of the neighbouring cells in a vec.
     /// The vec contains the elements moving clockwise from north. 
     fn into(self) -> Vec<Option<T>> {
-        vec![self.n, self.ne, self.e, self.se, self.s, self.sw, self.w, self.nw]
+        self.into_vec()
     }
 }
 
+pub fn find_coords_for<T: Eq + PartialEq>(haystack: &Vec<Vec<T>>, needle: T) -> Vec<(usize, usize)> {
+    haystack.iter().enumerate().map(|(irow, row)| {
+        let mut start = 0;
+        let mut indices = Vec::new();
+        while let Some(i) = row[start..].iter().position(|val| *val == needle) {
+            indices.push((irow, start + i));
+            start += i + 1;
+        }
+        indices
+    }).flatten().collect()
+}
