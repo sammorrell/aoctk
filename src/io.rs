@@ -1,4 +1,5 @@
 use crate::err::Error;
+use ndarray::Array;
 
 use std::{
     fs::File,
@@ -66,4 +67,15 @@ pub fn read_string(path: &Path) -> Result<String, Error> {
     let mut str_buf = String::new();
     let nbytes = BufReader::new(file).read_to_string(&mut str_buf)?;
     Ok(str_buf)
+}
+
+/// A quick way of reading the grid-based data into a data structure from a file.
+/// It's not nice, but we can convert to other structures to make it easier to deal with. 
+pub fn grid_from_file(path: &Path) -> Result<Vec<Vec<char>>, Error> {
+    let cols = read_string_col(path)?;
+    let data = cols.iter().map(|row| {
+        row.chars().collect()
+    }).collect();
+    
+    Ok(data)
 }

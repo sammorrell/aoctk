@@ -3,6 +3,7 @@ pub enum Error {
     IOError(std::io::Error),
     RegexError(regex::Error),
     ParseIntError(std::num::ParseIntError),
+    NoDataError,
 }
 
 impl From<std::io::Error> for Error {
