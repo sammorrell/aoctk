@@ -11,7 +11,7 @@ pub struct GridNeighbours<T: Default + Copy> {
 }
 
 impl<T: Default + Copy> GridNeighbours<T> {
-    pub fn get_neighborurs_for_coord(grid: &Vec<Vec<T>>, i: usize, j: usize) -> Self {
+    pub fn get_neighbours_for_coord(grid: &Vec<Vec<T>>, i: usize, j: usize) -> Self {
         let mut neighbours = GridNeighbours::<T>::default();
         let ni = grid.len();
         let nj = grid[0].len();

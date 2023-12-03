@@ -1,5 +1,4 @@
 use crate::err::Error;
-use ndarray::Array;
 
 use std::{
     fs::File,
