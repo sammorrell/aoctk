@@ -80,3 +80,8 @@ pub fn transpose<T>(v: Vec<Vec<T>>) -> Vec<Vec<T>> {
         })
         .collect()
 }
+
+pub fn rotate_clockwise_90<T: Default + Copy>(grid: &Vec<Vec<T>>) -> Vec<Vec<T>> {
+    let rotated = transpose(grid.clone());
+    rotated.iter().map(|row| row.iter().rev().cloned().collect()).collect()
+}
