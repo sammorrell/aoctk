@@ -1,4 +1,4 @@
-use std::slice::SliceIndex;
+use std::ops::Add;
 
 #[inline]
 pub fn new_grid<T: Default + Clone>(ni: usize, nj: usize) -> Vec<Vec<T>> {
@@ -84,4 +84,13 @@ pub fn transpose<T>(v: Vec<Vec<T>>) -> Vec<Vec<T>> {
 pub fn rotate_clockwise_90<T: Default + Copy>(grid: &Vec<Vec<T>>) -> Vec<Vec<T>> {
     let rotated = transpose(grid.clone());
     rotated.iter().map(|row| row.iter().rev().cloned().collect()).collect()
+}
+
+pub fn add_grids<T>(grid1: Vec<Vec<T>>, grid2: Vec<Vec<T>>) -> Vec<Vec<T>> where T: Add<Output = T> + Clone {
+    grid1
+        .iter()
+        .zip(grid2)
+        .map(|(row1, row2)| {
+            row1.iter().zip(row2).map(|(val1, val2)|{ val1.clone() + val2 }).collect::<Vec<T>>()
+        }).collect()
 }
